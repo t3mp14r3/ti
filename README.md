@@ -1,0 +1,2 @@
+# ti
+Small template initializer
