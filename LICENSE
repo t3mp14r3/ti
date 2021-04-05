@@ -43,7 +43,7 @@ giving you legal permission to copy, distribute and/or modify it.
 
   For the developers' and authors' protection, the GPL clearly explains
 that there is no warranty for this free software.  For both users' and
-authors' sake, the GPL requires that modified versions be marked as
+authors' sake, the GPLrequires that modified versions be marked as
 changed, so that their problems will not be attributed erroneously to
 authors of previous versions.
 
@@ -671,4 +671,4 @@ into proprietary programs.  If your program is a subroutine library, you
 may consider it more useful to permit linking proprietary applications with
 the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
-<https://www.gnu.org/licenses/why-not-lgpl.html>.
+<https://www.gnu.org/licenses/why-not-lgpl.html>. 

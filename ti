@@ -1,0 +1,112 @@
+#!/bin/sh
+
+# Check if tree is installed
+tree . &> /dev/null
+if [ $? -ne 0 ];
+then
+	echo -e "\n Please install tree!\n"
+	exit 1
+fi
+
+
+
+# Templates directory variable
+templates="/home/tempy/.config/ti/"
+
+
+
+# Create help message command
+usage() {
+	echo
+	echo " Templates Init:"
+	echo " ---------------"
+	echo
+	echo " list       - show all existing templates"
+	echo " new <dir>  - create a new template from already existing directory"
+	echo " init <tpl> - initialize a template by name"
+	echo " show <tpl> - show internal structure of the template"
+	echo " del <tpl>  - remove a template by name"
+	echo
+}
+
+# Create templates listing command
+list() {
+	echo
+	echo " Existing templates:"
+	echo " -------------------"
+	echo
+	tpls=$(ls -l $templates | grep '^d' | cut -d ' ' -f 10- | tr "\n" "\t")
+	echo " $tpls"
+	echo
+}
+
+# New template generator
+new() {
+	dtest=$(find $1 -type d 2> /dev/null | head -n 1 2> /dev/null)
+	[ ${#dtest} == 0 ] && echo -e "\n Please, provide a directory with template content inside!\n" && exit
+
+	mkdir -p "$templates/$dtest" &> /dev/null
+	[ $? != 0 ] && echo -e "\n Something went wrong! Please check your source dir, or the templates directory.\n" && exit
+	
+	tocpy="$1/*"
+	cp -r $tocpy "$templates/$dtest/" &> /dev/null
+	[ $? != 0 ] && echo -e "\n Something went wrong! Please check your source dir, or the templates directory.\n" && exit
+}
+
+# Template initializer
+init() {
+	tofind="$templates/$1"
+	dtest=$(find $tofind -type d 2> /dev/null | head -n 1 2> /dev/null)
+	[ ${#dtest} == 0 ] && echo -e "\n Couldn't find the template folder!\n" && exit
+
+	tocpy="$tofind/*"
+	cp -r $tocpy . &> /dev/null
+	[ $? != 0 ] && echo -e "\n Something went wrong! Please check the template directory.\n" && exit
+
+	echo -e "\n Template $1 has been initialized!\n"
+}
+
+# Template structure displayer
+show() {
+	tofind="$templates/$1"
+	dtest=$(find $tofind -type d 2> /dev/null | head -n 1 2> /dev/null)
+	[ ${#dtest} == 0 ] && echo -e "\n Couldn't find the template folder!\n" && exit
+
+	echo
+	tree $tofind 2> /dev/null
+	[ $? != 0 ] && echo -e " Something went wrong! Please check the template directory.\n" && exit
+	echo
+}
+
+# Template remover
+del() {
+	tofind="$templates/$1"
+	dtest=$(find $tofind -type d 2> /dev/null | head -n 1 2> /dev/null)
+	[ ${#dtest} == 0 ] && echo -e "\n Couldn't find the template folder!\n" && exit
+
+	rm -rf $tofind &> /dev/null
+	[ $? != 0 ] && echo -e "\n Something went wrong! Please check the template directory.\n" && exit
+
+	echo -e "\n Template $1 has been removed!\n"
+}
+
+
+[ $# == 0 ] && usage && exit
+
+[ $# == 1 ] && [ $1 == "list" ] && list && exit
+
+[ $# == 1 ] && [ $1 == "new" ] && echo -e "\n Please, provide the source directory as well!\n"
+
+[ $# == 1 ] && [ $1 == "init" ] && echo -e "\n Please, provide the template name as well!\n"
+
+[ $# == 1 ] && [ $1 == "del" ] && echo -e "\n Please, provide the template name as well!\n"
+
+[ $# == 1 ] && [ $1 == "show" ] && echo -e "\n Please, provide the template name as well!\n"
+
+[ $# == 2 ] && [ $1 == "new" ] && new $2 && exit
+
+[ $# == 2 ] && [ $1 == "init" ] && init $2 && exit
+
+[ $# == 2 ] && [ $1 == "show" ] && show $2 && exit
+
+[ $# == 2 ] && [ $1 == "del" ] && del $2 && exit
