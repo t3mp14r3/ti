@@ -2,7 +2,7 @@
 
 Small template initializer
 
-This is little is cript is needed to create frequently used templates for programming, writing, etc.
+This little script can be used to create frequently used templates for programming, writing, etc.
 
 
 #### Usage:
