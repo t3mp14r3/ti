@@ -11,7 +11,12 @@ fi
 
 
 # Templates directory variable
-templates="/home/tempy/.config/ti/"
+templates="$HOME/.config/ti"
+
+# Check for templates dir existance
+find $templates -type d &> /dev/null
+[ $? != 0 ] && mkdir -p $templates
+
 
 
 
