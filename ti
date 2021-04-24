@@ -40,7 +40,7 @@ list() {
 	echo " Existing templates:"
 	echo " -------------------"
 	echo
-	tpls=$(ls -l $templates | grep '^d' | cut -d ' ' -f 10- | tr "\n" "\t")
+	tpls=$(ls -l $templates | grep '^d' | awk '{print $9}' | tr "\n" "\t")
 	echo " $tpls"
 	echo
 }
